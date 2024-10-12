@@ -6,8 +6,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root   #你本地的数据库用户名
-    password: 219410 #你本地的数据库密码
-    url: jdbc:mysql://localhost:3306/xm_recirco_manager?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+    password: root219410@ #你本地的数据库密码
+    url: jdbc:mysql://rm-2zelo1hw67ko419r9zo.mysql.rds.aliyuncs.com:3306/xm_recirco_manager?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
   servlet:
     multipart:
       max-file-size: 100MB
