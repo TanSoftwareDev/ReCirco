@@ -7,11 +7,11 @@
         <div style="color: #FB0137FF; margin: 15px 0 15px 18px; font-weight: bold; font-size: 16px">主题市场</div>
         <div style="display: flex; margin: 0 25px">
           <div style="flex: 2">
-            <div style="display: flex; color: #666666FF; margin: 14px 0">
+            <div style="display: flex; color: #666666FF; margin: 14px 0" v-for="item in typeData">
               <div>
-                <img src="@/assets/imgs/bg.jpg" alt="" style="width: 20px; height: 20px">
+                <img :src="item.img" alt="" style="width: 20px; height: 20px">
               </div>
-              <div style="margin-left: 10px; font-size: 14px">靓丽女装</div>
+              <div style="margin-left: 10px; font-size: 14px">{{ item.name }}</div>
             </div>
           </div>
           <div style="flex: 5; height: 300px; background-color: green;"></div>
