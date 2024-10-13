@@ -1,5 +1,5 @@
 server:
-  port: 9090
+  port: 8080
 
 # 数据库配置
 spring:
@@ -10,8 +10,8 @@ spring:
     url: jdbc:mysql://rm-2zelo1hw67ko419r9zo.mysql.rds.aliyuncs.com:3306/xm_recirco_manager?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
   servlet:
     multipart:
-      max-file-size: 100MB
-      max-request-size: 100MB
+      max-file-size: 100MB # 设置单个文件大小
+      max-request-size: 100MB # 设置单次请求文件的总大小
 
 # 配置mybatis实体和xml映射
 mybatis:
@@ -27,5 +27,10 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+
+minio:
+  endpoint: http://121.43.209.42:9090
+  accesskey: minioadmin
+  secretKey: minioadmin
 
 ip: localhost
