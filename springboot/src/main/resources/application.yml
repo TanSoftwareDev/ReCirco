@@ -29,7 +29,7 @@ pagehelper:
   params: count=countSql
 
 minio:
-  endpoint: http://121.43.209.42:9090
+  endpoint: http://121.43.209.42:9000
   accesskey: minioadmin
   secretKey: minioadmin
 
