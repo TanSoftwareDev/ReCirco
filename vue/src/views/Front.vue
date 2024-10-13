@@ -1,7 +1,7 @@
 <template>
   <div>
-<!--    去掉首页此处的公告-->
-<!--    <div class="front-notice"><i class="el-icon-bell" style="margin-right: 2px"></i>公告：{{ top }}</div>-->
+    <!--    去掉首页此处的公告-->
+    <!--    <div class="front-notice"><i class="el-icon-bell" style="margin-right: 2px"></i>公告：{{ top }}</div>-->
     <!--头部-->
     <div class="front-header">
       <div class="front-header-left">
@@ -35,7 +35,7 @@
     </div>
     <!--主体-->
     <div class="main-body">
-      <router-view ref="child" @update:user="updateUser" />
+      <router-view ref="child" @update:user="updateUser"/>
     </div>
   </div>
 
@@ -46,7 +46,7 @@
 export default {
   name: "FrontLayout",
 
-  data () {
+  data() {
     return {
       top: '',
       notice: [],
@@ -88,5 +88,5 @@ export default {
 </script>
 
 <style scoped>
-  @import "@/assets/css/front.css";
+@import "@/assets/css/front.css";
 </style>
