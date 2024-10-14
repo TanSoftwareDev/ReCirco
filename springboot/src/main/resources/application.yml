@@ -30,7 +30,8 @@ pagehelper:
 
 minio:
   endpoint: http://121.43.209.42:9000
-  accesskey: minioadmin
+  accessKey: minioadmin
   secretKey: minioadmin
+  bucketName: image
 
 ip: localhost

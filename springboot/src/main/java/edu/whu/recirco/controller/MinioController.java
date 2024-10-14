@@ -33,18 +33,19 @@ public class MinioController {
     private MinioService minioService;
     @Value("${minio.endpoint}")
     private String minioEndpoint;
-    @Value("${minio.access-key}")
+    @Value("$${minio.accessKey}")
     private String minioAccessKey;
-    @Value("${minio.secret-key}")
+    @Value("${minio.secretKey}")
     private String minioSecretKey;
+
     @PostMapping("/upload")
-    public ResponseEntity<JSONObject> upload(MultipartFile file,String bucketName) {
+    public ResponseEntity<JSONObject> upload(MultipartFile file, String bucketName) {
         JSONObject result = new JSONObject();
         try {
             result = minioService.uploadFile(file, bucketName);
         } catch (Exception e) {
-            result.put("code",TodoException.MINIO_ERROR);
-            result.put("message","上传失败");
+            result.put("code", TodoException.MINIO_ERROR);
+            result.put("message", "上传失败");
         }
         return ResponseEntity.ok(result);
     }
@@ -74,13 +75,14 @@ public class MinioController {
                     .contentType(MediaType.APPLICATION_OCTET_STREAM)
                     .body(fileResource);
         } catch (ServerException | InsufficientDataException | ErrorResponseException | NoSuchAlgorithmException |
-                 InvalidKeyException | TodoException | InternalException | XmlParserException | InvalidResponseException e) {
+                 InvalidKeyException | TodoException | InternalException | XmlParserException |
+                 InvalidResponseException e) {
             return ResponseEntity.badRequest().build();
         }
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<String> deleteFile(String bucketName,String fileName) {
+    public ResponseEntity<String> deleteFile(String bucketName, String fileName) {
         try {
             boolean fileExists = minioService.fileExists(bucketName, fileName);
             if (!fileExists) {

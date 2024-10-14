@@ -25,9 +25,9 @@ public class MinioService {
     private MinioClient client;
     @Value("${minio.endpoint}")
     private String minioEndpoint;
-    @Value("${minio.access-key}")
+    @Value("${minio.accessKey}")
     private String minioAccessKey;
-    @Value("${minio.secret-key}")
+    @Value("${minio.secretKey}")
     private String minioSecretKey;
 
     //创建bucket
@@ -43,10 +43,12 @@ public class MinioService {
             throw new TodoException(TodoException.MINIO_ERROR, "创建桶失败");
         }
     }
+
     //获取所有bucket
     public List<Bucket> getAllBuckets() throws ServerException, InsufficientDataException, ErrorResponseException, IOException, NoSuchAlgorithmException, InvalidKeyException, InvalidResponseException, XmlParserException, InternalException {
         return client.listBuckets();
     }
+
     //判断文件是否存在
     public boolean fileExists(String bucketName, String fileName) throws IOException, InvalidKeyException, InvalidResponseException, InsufficientDataException, NoSuchAlgorithmException, ServerException, ErrorResponseException, InternalException, XmlParserException {
         return client.statObject(StatObjectArgs.builder()
@@ -91,11 +93,12 @@ public class MinioService {
                             .build()
             );
         } catch (Exception e) {
-            throw new TodoException(TodoException.MINIO_ERROR,"下载失败");
+            throw new TodoException(TodoException.MINIO_ERROR, "下载失败");
         }
     }
+
     //删除文件
-    public void deleteFile(String bucketName, String fileName) throws IOException, InvalidKeyException, InvalidResponseException, InsufficientDataException, NoSuchAlgorithmException, ServerException, ErrorResponseException, InternalException, XmlParserException{
+    public void deleteFile(String bucketName, String fileName) throws IOException, InvalidKeyException, InvalidResponseException, InsufficientDataException, NoSuchAlgorithmException, ServerException, ErrorResponseException, InternalException, XmlParserException {
         client.removeObject(RemoveObjectArgs.builder()
                 .bucket(bucketName)
                 .object(fileName)
