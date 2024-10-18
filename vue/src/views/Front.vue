@@ -1,8 +1,6 @@
 <template xmlns="">
   <div>
     <!--    去掉首页此处的公告-->
-    <div class="front-notice"><i class="el-icon-bell" style="margin-right: 2px"></i>公告：{{ top }}</div>
-    <!--头部-->
     <div class="front-header">
       <div class="front-header-left" @click="navTo('/front/home')">
         <img src="@/assets/imgs/logo.png" alt="">
