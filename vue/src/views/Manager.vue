@@ -3,7 +3,7 @@
     <!--  头部  -->
     <div class="manager-header">
       <div class="manager-header-left">
-        <img src="@/assets/imgs/logo.png" />
+        <img src="@/assets/imgs/logo.png"/>
         <div class="title">后台管理系统</div>
       </div>
 
@@ -17,8 +17,8 @@
       <div class="manager-header-right">
         <el-dropdown placement="bottom">
           <div class="avatar">
-            <img :src="user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'" />
-            <div>{{ user.name ||  '管理员' }}</div>
+            <img :src="user.avatar || 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"/>
+            <div>{{ user.name || '管理员' }}</div>
           </div>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item @click.native="goToPerson">个人信息</el-dropdown-item>
@@ -58,7 +58,7 @@
 
       <!--  数据表格  -->
       <div class="manager-main-right">
-        <router-view @update:user="updateUser" />
+        <router-view @update:user="updateUser"/>
       </div>
     </div>
 
