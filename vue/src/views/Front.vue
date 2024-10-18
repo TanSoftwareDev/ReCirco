@@ -1,10 +1,10 @@
-<template>
+<template xmlns="">
   <div>
     <!--    去掉首页此处的公告-->
-    <!--    <div class="front-notice"><i class="el-icon-bell" style="margin-right: 2px"></i>公告：{{ top }}</div>-->
+    <div class="front-notice"><i class="el-icon-bell" style="margin-right: 2px"></i>公告：{{ top }}</div>
     <!--头部-->
     <div class="front-header">
-      <div class="front-header-left">
+      <div class="front-header-left" @click="navTo('/front/home')">
         <img src="@/assets/imgs/logo.png" alt="">
         <div class="title">悠换二手货物交易平台</div>
       </div>
@@ -19,7 +19,7 @@
         <div v-else>
           <el-dropdown>
             <div class="front-header-dropdown">
-              <img :src="user.avatar" alt="">
+              <img @click="navTo('/front/person')" :src="user.avatar" alt="">
               <div style="margin-left: 10px">
                 <span>{{ user.name }}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
               </div>
@@ -77,11 +77,18 @@ export default {
     updateUser() {
       this.user = JSON.parse(localStorage.getItem('xm-user') || '{}')   // 重新获取下用户的最新信息
     },
+    navTo(url) {
+      location.href = url
+    },
     // 退出登录
     logout() {
       localStorage.removeItem("xm-user");
       this.$router.push("/login");
     },
+    search() {
+      let name = this.name ? this.name : ''
+      location.href = '/front/search?name=' + name
+    }
   }
 
 }
