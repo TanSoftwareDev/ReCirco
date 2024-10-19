@@ -78,12 +78,8 @@
         <div style="margin:10px 5px 0 5px">
           <el-row>
             <el-col :span="5" v-for="item in goodsData">
-              <img :src="item.img" alt=""
-                   style="width: 100%; height: 175px; border-radius: 10px; border: #cccccc 1px solid">
-              <div
-                  style="margin-top: 10px; font-weight: 500; font-size: 16px; width: 170px; color: #000000FF; text-overflow: ellipsis; overflow: hidden; white-space: nowrap">
-                {{item.name}}
-              </div>
+              <img @click="navTo('/front/detail?id=' + item.id)" :src="item.img" alt="" style="width: 100%; height: 175px; border-radius: 10px; border: #cccccc 1px solid">
+              <div style="margin-top: 10px; font-weight: 500; font-size: 16px; width: 170px; color: #000000FF; text-overflow: ellipsis; overflow: hidden; white-space: nowrap">{{item.name}}</div>
               <div style="margin-top: 5px; font-size: 20px; color: #FF5000FF">￥ {{ item.price }} / {{item.unit}}</div>
             </el-col>
           </el-row>
