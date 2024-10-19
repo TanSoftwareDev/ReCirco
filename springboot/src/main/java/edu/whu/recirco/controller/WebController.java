@@ -43,9 +43,7 @@ public class WebController {
         if (RoleEnum.BUSINESS.name().equals(account.getRole())) {
             account = businessService.login(account);
         }
-        if (RoleEnum.USER.name().equals(account.getRole())) {
-            account = userService.login(account);
-        }
+
         return Result.success(account);
     }
 
