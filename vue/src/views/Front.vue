@@ -49,6 +49,7 @@ export default {
       top: '',
       notice: [],
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
+      name:null
     }
   },
 
