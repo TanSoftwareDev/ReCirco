@@ -69,6 +69,7 @@ const routes = [
                 meta: {name: '商品详情'},
                 component: () => import('../views/front/Detail')
             },
+            {path:'search',name:'Search',meta:{name:'搜索页面'},component:() =>import('../views/front/Search') },
         ]
     },
     {path: '/login', name: 'Login', meta: {name: '登录'}, component: () => import('../views/Login.vue')},

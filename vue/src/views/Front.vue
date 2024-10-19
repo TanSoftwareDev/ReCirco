@@ -6,8 +6,9 @@
         <img src="@/assets/imgs/logo.png" alt="">
         <div class="title">悠换二手货物交易平台</div>
       </div>
-      <div class="front-header-center">
-
+      <div class="front-header-center" style="text-align: right">
+        <el-input style="width: 220px" placeholder="请输入商品名称" v-model="name"> </el-input>
+        <el-button type="primary" style="margin-left:5px" @click="search()">搜索</el-button>
       </div>
       <div class="front-header-right">
         <div v-if="!user.username">
@@ -49,6 +50,7 @@ export default {
       top: '',
       notice: [],
       user: JSON.parse(localStorage.getItem("xm-user") || '{}'),
+      name:null
     }
   },
 
