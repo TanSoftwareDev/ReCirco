@@ -10,6 +10,8 @@
         <el-input style="width: 220px" placeholder="请输入商品名称" v-model="name"> </el-input>
         <el-button type="primary" style="margin-left:5px" @click="search()">搜索</el-button>
       </div>
+      <div class="front-header-center">
+      </div>
       <div class="front-header-right">
         <div v-if="!user.username">
           <el-button @click="$router.push('/login')">登录</el-button>
