@@ -3,9 +3,12 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-size: 14px;
+    background-color: #efebeb;
 }
+
 a {
     text-decoration: none;
 }
