@@ -7,6 +7,7 @@ import edu.whu.recirco.common.enums.ResultCodeEnum;
 import edu.whu.recirco.common.enums.RoleEnum;
 import edu.whu.recirco.entity.Account;
 import edu.whu.recirco.service.AdminService;
+import edu.whu.recirco.service.BusinessService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,6 +20,8 @@ public class WebController {
 
     @Resource
     private AdminService adminService;
+    @Resource
+    private BusinessService businessService;
 
     @GetMapping("/")
     public Result hello() {
@@ -37,6 +40,12 @@ public class WebController {
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
             account = adminService.login(account);
         }
+        if (RoleEnum.BUSINESS.name().equals(account.getRole())) {
+            account = businessService.login(account);
+        }
+        if (RoleEnum.USER.name().equals(account.getRole())) {
+            account = userService.login(account);
+        }
         return Result.success(account);
     }
 
@@ -51,6 +60,9 @@ public class WebController {
         }
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
             adminService.register(account);
+        }
+        if (RoleEnum.BUSINESS.name().equals(account.getRole())) {
+            businessService.register(account);
         }
         return Result.success();
     }
