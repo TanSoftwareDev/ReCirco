@@ -1,3 +1,4 @@
+/*
 package edu.whu.recirco.common.config;
 
 import cn.hutool.core.util.ObjectUtil;
@@ -22,9 +23,11 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+*/
 /**
  * jwt拦截器
- */
+ *//*
+
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
 
@@ -75,4 +78,4 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
         return true;
     }
-}
+}*/

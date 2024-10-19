@@ -58,19 +58,19 @@
             </div>
             <div style="display: flex; margin-top: 50px">
               <div style="flex: 1; text-align: center">
-                <img src="@/assets/imgs/收藏.png" alt="" style="height: 25px; width: 25px">
+                <img src="@/assets/imgs/collect.png" alt="" style="height: 25px; width: 25px">
                 <div>我的收藏</div>
               </div>
               <div style="flex: 1; text-align: center">
-                <img src="@/assets/imgs/店铺.png" alt="" style="height: 25px; width: 25px">
+                <img src="@/assets/imgs/store.png" alt="" style="height: 25px; width: 25px">
                 <div>我的地址</div>
               </div>
               <div style="flex: 1; text-align: center">
-                <img src="@/assets/imgs/购物车.png" alt="" style="height: 25px; width: 25px">
+                <img src="@/assets/imgs/shopping cart.png" alt="" style="height: 25px; width: 25px">
                 <div>我的购物车</div>
               </div>
               <div style="flex: 1; text-align: center">
-                <img src="@/assets/imgs/订单.png" alt="" style="height: 25px; width: 25px">
+                <img src="@/assets/imgs/order.png" alt="" style="height: 25px; width: 25px">
                 <div>我的订单</div>
               </div>
             </div>

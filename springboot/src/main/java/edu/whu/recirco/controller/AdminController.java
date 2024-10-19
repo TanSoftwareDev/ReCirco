@@ -1,8 +1,8 @@
 package edu.whu.recirco.controller;
 
 import edu.whu.recirco.common.Result;
-import edu.whu.recirco.entity.Admin;
-import edu.whu.recirco.service.AdminService;
+import edu.whu.recirco.domain.Admin;
+import edu.whu.recirco.service.impl.AdminServiceImpl;
 import com.github.pagehelper.PageInfo;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,7 +17,7 @@ import java.util.List;
 public class AdminController {
 
     @Resource
-    private AdminService adminService;
+    private AdminServiceImpl adminService;
 
     /**
      * 新增
@@ -68,8 +68,8 @@ public class AdminController {
      * 查询所有
      */
     @GetMapping("/selectAll")
-    public Result selectAll(Admin admin) {
-        List<Admin> list = adminService.selectAll(admin);
+    public Result selectAll() {
+        List<Admin> list = adminService.selectAll();
         return Result.success(list);
     }
 
