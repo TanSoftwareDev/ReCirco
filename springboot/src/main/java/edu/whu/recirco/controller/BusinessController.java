@@ -2,8 +2,8 @@ package edu.whu.recirco.controller;
 
 import com.github.pagehelper.PageInfo;
 import edu.whu.recirco.common.Result;
-import edu.whu.recirco.entity.Business;
-import edu.whu.recirco.service.BusinessService;
+import edu.whu.recirco.domain.Business;
+import edu.whu.recirco.service.impl.BusinessServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -17,7 +17,7 @@ import java.util.List;
 public class BusinessController {
 
     @Resource
-    private BusinessService businessService;
+    private BusinessServiceImpl businessService;
 
     /**
      * 新增

@@ -1,8 +1,9 @@
 package edu.whu.recirco.security;
 
-import edu.whu.MagicNote.domain.User;
-import edu.whu.MagicNote.service.IUserService;
+import edu.whu.recirco.domain.Account;
+import edu.whu.recirco.service.IAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,37 +16,25 @@ import org.springframework.stereotype.Service;
 public class DbUserDetailService implements UserDetailsService {
 
     @Autowired
-    IUserService userService;
+    IAccountService accountService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.getUserByName(username);
-        if (user == null) {
+        Account account = accountService.getAccountByName(username);
+        if (account == null) {
             throw new UsernameNotFoundException("User " + username + " is not found");
         }
-        return org.springframework.security.core.userdetails.User.builder()
+        return User.builder()
                 .username(username)
-                .password(user.getPassword())
-                .roles("USER")
+                .password(account.getPassword())
+                .roles(account.getRole())
                 .build();
     }
-    //根据邮箱登录
-    public UserDetails loadUserByUserEmail(String email) throws UsernameNotFoundException {
-        User user = userService.getUserByEmail(email);
-        if (user == null) {
-            throw new UsernameNotFoundException("User with email " + email + " is not found");
-        }
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(email) // 使用邮箱作为用户名
-                .password(user.getPassword())
-                .roles("USER")
-                .build();
-    }
+   
     //检查用户是否存在
-    public boolean isUserExists(String nameOrEmail) {
-        User user1 = userService.getUserByName(nameOrEmail);
-        User user2 = userService.getUserByEmail(nameOrEmail);
-        return user1 != null || user2 != null;
+    public boolean isUserExists(String username) {
+        Account user = accountService.getAccountByName(username);
+        return user != null;
     }
     //检查密码强度
     public String getPasswordStrengthErrorMessage(String password) {
@@ -83,8 +72,8 @@ public class DbUserDetailService implements UserDetailsService {
         return null;
     }
     //保存用户信息
-    public void saveUser(User user){
-        userService.addUser(user);
+    public void saveUser(Account user){
+        accountService.addAccount(user);
     }
 
 }

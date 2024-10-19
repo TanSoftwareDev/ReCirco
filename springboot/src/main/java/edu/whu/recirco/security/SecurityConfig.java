@@ -27,8 +27,8 @@ public class SecurityConfig {
         http.authorizeRequests()
                 .antMatchers("/login").permitAll() //login接口直接放行
                 .antMatchers("/register").permitAll() //register接口直接放行
-                .antMatchers("/editor.html").permitAll() //register接口直接放行
-                //.anyRequest().authenticated()  //其他接口需要认证
+                .antMatchers("/").permitAll() //register接口直接放行
+                /*.anyRequest().authenticated()  //其他接口需要认证*/
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         //添加jwtRequestFilter过滤器到UsernamePasswordAuthenticationFilter之前
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

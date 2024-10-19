@@ -1,3 +1,4 @@
+/*
 package edu.whu.recirco.controller;
 
 import cn.hutool.core.util.ObjectUtil;
@@ -11,9 +12,11 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+*/
 /**
  * 基础前端接口
- */
+ *//*
+
 @RestController
 public class WebController {
 
@@ -25,9 +28,11 @@ public class WebController {
         return Result.success("访问成功");
     }
 
-    /**
+    */
+/**
      * 登录
-     */
+     *//*
+
     @PostMapping("/login")
     public Result login(@RequestBody Account account) {
         if (ObjectUtil.isEmpty(account.getUsername()) || ObjectUtil.isEmpty(account.getPassword())
@@ -40,9 +45,11 @@ public class WebController {
         return Result.success(account);
     }
 
-    /**
+    */
+/**
      * 注册
-     */
+     *//*
+
     @PostMapping("/register")
     public Result register(@RequestBody Account account) {
         if (StrUtil.isBlank(account.getUsername()) || StrUtil.isBlank(account.getPassword())
@@ -55,9 +62,11 @@ public class WebController {
         return Result.success();
     }
 
-    /**
+    */
+/**
      * 修改密码
-     */
+     *//*
+
     @PutMapping("/updatePassword")
     public Result updatePassword(@RequestBody Account account) {
         if (StrUtil.isBlank(account.getUsername()) || StrUtil.isBlank(account.getPassword())
@@ -71,3 +80,4 @@ public class WebController {
     }
 
 }
+*/

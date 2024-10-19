@@ -1,12 +1,21 @@
 package edu.whu.recirco.security;
 
+import cn.hutool.core.util.ObjectUtil;
+import com.auth0.jwt.JWT;
+import edu.whu.recirco.common.Constants;
+import edu.whu.recirco.common.enums.RoleEnum;
+import edu.whu.recirco.domain.Account;
+import edu.whu.recirco.service.IAccountService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +32,7 @@ public class JwtTokenUtil {
     @Value("${jwt.secret}")
     private String secret;
 
+    private static IAccountService accountService;
     //生成Token
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();//可以自由加入各种身份信息，如角色
@@ -58,5 +68,21 @@ public class JwtTokenUtil {
     private Boolean ignoreTokenExpiration(String token) {
         // here you specify tokens, for that the expiration is ignored
         return false;
+    }
+    public static Account getCurrentUser() {
+        try {
+            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+            String token = request.getHeader(Constants.TOKEN);
+            if (ObjectUtil.isNotEmpty(token)) {
+                String userRole = JWT.decode(token).getAudience().get(0);
+                String userId = userRole.split("-")[0];  // 获取用户id
+                String role = userRole.split("-")[1];    // 获取角色
+                return accountService.getAccount(Integer.valueOf(userId));
+
+            }
+        } catch (Exception e) {
+//            log.error("获取当前用户信息出错", e);
+        }
+        return new Account();  // 返回空的账号对象
     }
 }
