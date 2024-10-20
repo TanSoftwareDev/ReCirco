@@ -32,37 +32,40 @@
 export default {
 
   data() {
-    // let goodsId = this.$router.query.id
-    let goodsId = 3
+    let goodsId = this.$route.query.id
     return {
-      // user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
+      user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       goodsId: goodsId,
       goodsData: {}
     }
   },
   // DOM元素渲染之后
   mounted() {
+    // console.log("adfasffffffffffffffffffffffffffffff");
+    // console.log(this.$route.query);
+    // console.log(this.$router.query.id);
     this.loadGoods()
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
     // 测试版
+    // loadGoods() {
+    //   this.$request.get('http://127.0.0.1:4523/m2/5319188-4989426-default/224812492').then(res => {
+    //     if (res.code === '200') {
+    //       this.goodsData = res.data
+    //     } else {
+    //       this.$message.error(res.msg)
+    //     }
+    //   })
+      // 正式版
     loadGoods() {
-      this.$request.get('http://127.0.0.1:4523/m2/5319188-4989426-default/224812492').then(res => {
+      this.$request.get('/goods/selectById?id=' + this.goodsId).then(res => {
         if (res.code === '200') {
           this.goodsData = res.data
         } else {
           this.$message.error(res.msg)
         }
       })
-      // 正式版
-      // this.$request.get('/goods/selectById?id=' + this.goodsId).then(res => {
-      //   if (res.code === '200') {
-      //     this.goodsData = res.data
-      //   } else {
-      //     this.$message.error(res.msg)
-      //   }
-      // })
     }
   }
 }
