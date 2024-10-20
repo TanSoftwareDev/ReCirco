@@ -62,6 +62,7 @@ public class GoodsService {
         return goodsMapper.selectById(id);
     }
 
+    public List<Goods> selectTop15() {return goodsMapper.selectTop15();}
     /**
      * 查询所有
      */

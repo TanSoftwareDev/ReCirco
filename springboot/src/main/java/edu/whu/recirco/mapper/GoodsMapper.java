@@ -34,4 +34,7 @@ public interface GoodsMapper {
      */
     List<Goods> selectAll(Goods goods);
 
+    @Select("select * from goods order by count desc limit 15")
+    List<Goods> selectTop15();
+
 }
