@@ -77,5 +77,7 @@ public class GoodsService {
         List<Goods> list = goodsMapper.selectAll(goods);
         return PageInfo.of(list);
     }
-
+    public List<Goods> selectByName(String name) {
+        return goodsMapper.selectByName(name);
+    }
 }
