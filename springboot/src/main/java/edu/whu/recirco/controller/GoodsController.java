@@ -1,5 +1,6 @@
 package edu.whu.recirco.controller;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.whu.recirco.common.Result;
 
@@ -82,10 +83,37 @@ public class GoodsController {
     /**
      * 分页查询
      */
+//    @GetMapping("/selectPage")
+//    public Result selectPage(Goods goods,
+//                             @RequestParam(defaultValue = "1") Integer pageNum,
+//                             @RequestParam(defaultValue = "10") Integer pageSize) {
+//        PageInfo<Goods> page = goodsService.selectPage(goods, pageNum, pageSize);
+//        return Result.success(page);
+//    }
+
+    //商家只能访问到自己的商品，管理员可以访问所有
+//    @GetMapping("/selectPage")
+//    public PageInfo<Goods> selectPage(Goods goods,
+//                             @RequestParam(defaultValue = "1") Integer pageNum,
+//                             @RequestParam(defaultValue = "10") Integer pageSize) {
+//
+//        Account currentUser = TokenUtils.getCurrentUser();
+//        if (RoleEnum.BUSINESS.name().equals(currentUser.getRole())) {
+//            goods.setBusinessId(currentUser.getId());
+//        }
+//        PageHelper.startPage(pageNum,pageSize);
+//        List<Goods> list = goodsService.selectAll(goods);
+//        return PageInfo.of(list);
+//    }
     @GetMapping("/selectPage")
     public Result selectPage(Goods goods,
-                             @RequestParam(defaultValue = "1") Integer pageNum,
-                             @RequestParam(defaultValue = "10") Integer pageSize) {
+                                      @RequestParam(defaultValue = "1") Integer pageNum,
+                                      @RequestParam(defaultValue = "10") Integer pageSize) {
+
+        Account currentUser = TokenUtils.getCurrentUser();
+        if (RoleEnum.BUSINESS.name().equals(currentUser.getRole())) {
+            goods.setBusinessId(currentUser.getId());
+        }
         PageInfo<Goods> page = goodsService.selectPage(goods, pageNum, pageSize);
         return Result.success(page);
     }

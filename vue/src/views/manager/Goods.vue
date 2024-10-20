@@ -24,7 +24,13 @@
           </template>
         </el-table-column>
         <el-table-column prop="name" label="商品名称" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="description" label="商品描述" show-overflow-tooltip></el-table-column>
+
+        <el-table-column prop="description" label="商品描述">
+          <template slot-scope="scope">
+            <el-button type="success" @click="viewEditor(scope.row.description)">点击查看</el-button>
+          </template>
+        </el-table-column>
+
         <el-table-column prop="price" label="商品价格" show-overflow-tooltip></el-table-column>
         <el-table-column prop="unit" label="计件单位" show-overflow-tooltip></el-table-column>
         <el-table-column prop="typeName" label="商品分类" show-overflow-tooltip></el-table-column>
@@ -51,7 +57,7 @@
       </div>
     </div>
 
-    <el-dialog title="信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+    <el-dialog title="信息" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close @close="cancel">
       <el-form label-width="100px" style="padding-right: 50px" :model="form" :rules="rules" ref="formRef">
         <el-form-item label="商品主图">
           <el-upload
@@ -78,20 +84,40 @@
         <el-form-item prop="unit" label="计件单位">
           <el-input v-model="form.unit" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item prop="description" label="商品介绍">
+        <el-form-item prop="description" label="商品介绍" label-width="15%">
+          <div id="editor" style="width: 100%"></div>
 
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="fromVisible = false">取 消</el-button>
+        <el-button @click="cancel">取 消</el-button>
         <el-button type="primary" @click="save">确 定</el-button>
       </div>
+    </el-dialog>
+
+    <el-dialog title="商品介绍" :visible.sync="editorVisible" width="50%">
+      <div v-html="this.viewData" class="w-e-text"></div>
     </el-dialog>
 
   </div>
 </template>
 
 <script>
+import E from 'wangeditor'
+
+let editor
+function initWangEditor(content) {	setTimeout(() => {
+  if (!editor) {
+    editor = new E('#editor')
+    editor.config.placeholder = '请输入内容'
+    editor.config.uploadFileName = 'file'
+    editor.config.uploadImgServer = 'http://localhost:9090/files/wang/upload'
+    editor.create()
+  }
+  editor.txt.html(content)
+}, 0)
+}
+
 export default {
   name: "Notice",
   data() {
@@ -102,6 +128,7 @@ export default {
       total: 0,
       name: null,
       fromVisible: false,
+      editorVisible: false,
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       rules: {
@@ -114,6 +141,7 @@ export default {
       },
       ids: [],
       typeData: [],
+      viewData: null,
     }
   },
   created() {
@@ -131,16 +159,31 @@ export default {
       })
     },
     handleAdd() {   // 新增数据
+      if ('审核通过' !== this.user.status) {
+        this.$message.warning('您的店铺信息还未审核通过，暂时不允许发布商品')
+        return
+      }
       this.form = {}  // 新增数据的时候清空数据
+      initWangEditor('')
       this.fromVisible = true   // 打开弹窗
     },
     handleEdit(row) {   // 编辑数据
       this.form = JSON.parse(JSON.stringify(row))  // 给form对象赋值  注意要深拷贝数据
+      initWangEditor(this.form.description || '')
       this.fromVisible = true   // 打开弹窗
+    },
+    viewEditor(content) {
+      this.viewData = content
+     this.editorVisible = true
+    },
+    cancel() {
+      this.fromVisible = false
+      location.href = '/goods'
     },
     save() {   // 保存按钮触发的逻辑  它会触发新增或者更新
       this.$refs.formRef.validate((valid) => {
         if (valid) {
+          this.form.description = editor.txt.html()
           this.$request({
             url: this.form.id ? '/goods/update' : '/goods/add',
             method: this.form.id ? 'PUT' : 'POST',
@@ -148,8 +191,9 @@ export default {
           }).then(res => {
             if (res.code === '200') {  // 表示成功保存
               this.$message.success('保存成功')
-              this.load(1)
+              //this.load(1)
               this.fromVisible = false
+              location.href = '/goods'
             } else {
               this.$message.error(res.msg)  // 弹出错误的信息
             }
