@@ -44,6 +44,7 @@
             </template>
             <el-menu-item v-if="user.role === 'ADMIN'" index="/notice">公告信息</el-menu-item>
             <el-menu-item v-if="user.role === 'ADMIN'" index="/type">分类信息</el-menu-item>
+            <el-menu-item index="/goods">商品信息</el-menu-item>
           </el-submenu>
 
           <el-submenu index="user" v-if="user.role === 'ADMIN'">
