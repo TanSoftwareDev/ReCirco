@@ -78,6 +78,11 @@ public class GoodsController {
         List<Goods> list = goodsService.selectAll(goods);
         return Result.success(list);
     }
+    @GetMapping("/selectByName")
+    public Result selectByName(@RequestParam String name) {
+        List<Goods> list = goodsService.selectByName(name);
+        return Result.success(list);
+    }
 
     /**
      * 分页查询
