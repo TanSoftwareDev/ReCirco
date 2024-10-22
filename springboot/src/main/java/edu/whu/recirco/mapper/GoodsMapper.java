@@ -37,4 +37,6 @@ public interface GoodsMapper {
     @Select("select * from goods order by count desc limit 15")
     List<Goods> selectTop15();
 
+    @Select("select * from goods where type_id = #{id}")
+    List<Goods> selectByTypeId(Integer id);
 }

@@ -70,3 +70,10 @@
 #tab-first, #tab-second {
     font-size: 16px;
 }
+
+a {
+    color: #666666;
+}
+a:hover {
+    color: red;
+}
