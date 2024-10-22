@@ -31,13 +31,17 @@ request.interceptors.response.use(
         if (typeof res === 'string') {
             res = res ? JSON.parse(res) : res
         }
-        if (res.code === '401') {
+        if (response.status === 401 || (res.code && res.code === '401')) {
             router.push('/login')
         }
         return res;
     },
     error => {
         console.error('response error: ' + error) // for debug
+        console.log('response status:' + error.response.status)
+        if (error.response && error.response.status === 401) {
+            router.push('/login');
+        }
         return Promise.reject(error)
     }
 )

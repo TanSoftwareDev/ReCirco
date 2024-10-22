@@ -13,6 +13,7 @@ import edu.whu.recirco.entity.Business;
 import edu.whu.recirco.exception.CustomException;
 import edu.whu.recirco.service.AdminService;
 import edu.whu.recirco.service.BusinessService;
+import edu.whu.recirco.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,8 @@ public class JwtInterceptor implements HandlerInterceptor {
     private AdminService adminService;
     @Resource
     private BusinessService businessService;
+    @Resource
+    private UserService userService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -60,12 +63,16 @@ public class JwtInterceptor implements HandlerInterceptor {
             if(RoleEnum.BUSINESS.name().equals(role)){
                 account = businessService.selectById(Integer.valueOf(userId));
             }
+            if (RoleEnum.USER.name().equals(role)) {
+                account = userService.selectById(Integer.valueOf(userId));
+            }
         } catch (Exception e) {
             throw new CustomException(ResultCodeEnum.TOKEN_CHECK_ERROR);
         }
         if (ObjectUtil.isNull(account)) {
             throw new CustomException(ResultCodeEnum.USER_NOT_EXIST_ERROR);
         }
+
         try {
             // 用户密码加签验证 token
             JWTVerifier jwtVerifier = JWT.require(Algorithm.HMAC256(account.getPassword())).build();

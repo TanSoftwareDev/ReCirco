@@ -7,6 +7,8 @@ import edu.whu.recirco.common.enums.ResultCodeEnum;
 import edu.whu.recirco.common.enums.RoleEnum;
 import edu.whu.recirco.entity.Account;
 import edu.whu.recirco.service.AdminService;
+import edu.whu.recirco.service.BusinessService;
+import edu.whu.recirco.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -19,6 +21,10 @@ public class WebController {
 
     @Resource
     private AdminService adminService;
+    @Resource
+    private BusinessService businessService;
+    @Resource
+    private UserService userService;
 
     @GetMapping("/")
     public Result hello() {
@@ -37,6 +43,12 @@ public class WebController {
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
             account = adminService.login(account);
         }
+        if (RoleEnum.BUSINESS.name().equals(account.getRole())) {
+            account = businessService.login(account);
+        }
+        if (RoleEnum.USER.name().equals(account.getRole())) {
+            account = userService.login(account);
+        }
         return Result.success(account);
     }
 
@@ -52,6 +64,12 @@ public class WebController {
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
             adminService.register(account);
         }
+        if (RoleEnum.BUSINESS.name().equals(account.getRole())) {
+            businessService.register(account);
+        }
+        if (RoleEnum.USER.name().equals(account.getRole())) {
+            userService.register(account);
+        }
         return Result.success();
     }
 
@@ -66,6 +84,12 @@ public class WebController {
         }
         if (RoleEnum.ADMIN.name().equals(account.getRole())) {
             adminService.updatePassword(account);
+        }
+        if (RoleEnum.BUSINESS.name().equals(account.getRole())) {
+            businessService.updatePassword(account);
+        }
+        if (RoleEnum.USER.name().equals(account.getRole())) {
+            userService.updatePassword(account);
         }
         return Result.success();
     }

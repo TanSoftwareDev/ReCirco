@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import edu.whu.recirco.common.Constants;
 import edu.whu.recirco.common.enums.ResultCodeEnum;
 import edu.whu.recirco.common.enums.RoleEnum;
+import edu.whu.recirco.common.enums.StatusEnum;
 import edu.whu.recirco.entity.Account;
 import edu.whu.recirco.entity.Business;
 import edu.whu.recirco.exception.CustomException;
@@ -39,6 +40,9 @@ public class BusinessService {
         }
         if (ObjectUtil.isEmpty(business.getName())) {
             business.setName(business.getUsername());
+        }
+        if (ObjectUtil.isEmpty(business.getStatus())) {
+            business.setStatus(StatusEnum.CHECKING.status);
         }
         business.setRole(RoleEnum.BUSINESS.name());
         businessMapper.insert(business);
