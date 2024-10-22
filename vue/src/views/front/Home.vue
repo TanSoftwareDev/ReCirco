@@ -123,7 +123,7 @@ export default {
     this.loadType()
     this.loadNotice()
     this.loadGoods()
-    this.loadRecommend()
+    // this.loadRecommend()
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {

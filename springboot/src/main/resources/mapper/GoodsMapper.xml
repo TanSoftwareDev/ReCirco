@@ -28,10 +28,11 @@
     </select>
 
     <select id="selectById" resultType="edu.whu.recirco.entity.Goods">
-        select
-        <include refid="Base_Column_List" />
+        select goods.*, business.name as businessName, type.name as typeName
         from goods
-        where id = #{id}
+        left join business on goods.business_id = business.id
+        left join type on goods.type_id = type.id
+        where goods.id = #{id}
     </select>
 
     <delete id="deleteById">

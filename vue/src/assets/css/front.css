@@ -66,3 +66,7 @@
     border: none !important;
     height: 59px;
 }
+
+#tab-first, #tab-second {
+    font-size: 16px;
+}

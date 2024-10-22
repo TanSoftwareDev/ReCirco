@@ -1,6 +1,7 @@
 <template>
   <div class="main-content">
     <div style="width: 60%; background-color: white; min-height: 1000px; margin: 20px auto; border-radius: 20px">
+<!--      上方商品图片与详细信息的展示-->
       <div style="padding: 15px 20px">
         <el-row :gutter="20">
           <el-col :span="12">
@@ -13,8 +14,8 @@
             <div style="margin-top: 20px">
               <img src="@/assets/imgs/right.png" alt="" style="width: 70%; height: 130px; border-radius: 15px">
             </div>
-            <div style="color: #666666FF; font-size: 14px; margin-top: 20px">商家：{{goodsData.businessId}}</div>
-            <div style="color: #666666FF; font-size: 14px; margin-top: 20px">分类：{{goodsData.typeId}}</div>
+            <div style="color: #666666FF; font-size: 14px; margin-top: 20px">商家：{{goodsData.businessName}}</div>
+            <div style="color: #666666FF; font-size: 14px; margin-top: 20px">分类：{{goodsData.typeName}}</div>
             <div style="color: #666666FF; margin-top: 20px">
               <el-button type="warning">加入购物车</el-button>
               <el-button type="warning">收藏</el-button>
@@ -22,7 +23,15 @@
           </el-col>
         </el-row>
       </div>
-      <div></div>
+<!--      下放商品详情与评价的展示-->
+      <div style="padding: 15px 20px">
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="宝贝详情" name="first">
+            <div style="padding: 10px 175px" v-html="goodsData.description"></div>
+          </el-tab-pane>
+          <el-tab-pane label="宝贝评价" name="second">宝贝评价</el-tab-pane>
+        </el-tabs>
+      </div>
     </div>
   </div>
 </template>
@@ -36,7 +45,8 @@ export default {
     return {
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       goodsId: goodsId,
-      goodsData: {}
+      goodsData: {},
+      activeName: 'first'
     }
   },
   // DOM元素渲染之后
@@ -66,6 +76,9 @@ export default {
           this.$message.error(res.msg)
         }
       })
+    },
+    handleClick(tab, event) {
+      this.activeName = tab.name
     }
   }
 }
