@@ -18,7 +18,7 @@
             <div style="color: #666666FF; font-size: 14px; margin-top: 20px">分类：<a href="#" @click="navTo('/front/type?id=' + goodsData.typeId)">{{goodsData.typeName}}</a></div>
             <div style="color: #666666FF; margin-top: 20px">
               <el-button type="warning">加入购物车</el-button>
-              <el-button type="warning">收藏</el-button>
+              <el-button type="warning" @click="collect">收藏</el-button>
             </div>
           </el-col>
         </el-row>
@@ -79,6 +79,22 @@ export default {
     },
     handleClick(tab, event) {
       this.activeName = tab.name
+    },
+    collect(){
+      let data={
+        userId: this.user.id,
+        businessId: this.goodsData.businessId,
+        goodsId:this.goodsId
+      }
+      this.$request.post('/collect/add',data).then(res=>{
+        if(res.code === '200'){
+          this.$message.success('收藏成功')
+        }else {
+          this.$message.error(res.msg)
+        }
+      })
+
+
     },
     navTo(url) {
       location.href = url

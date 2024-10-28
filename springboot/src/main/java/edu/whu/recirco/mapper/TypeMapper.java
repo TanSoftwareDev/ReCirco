@@ -5,7 +5,7 @@ import edu.whu.recirco.entity.Type;
 import java.util.List;
 
 /**
- * 操作notice相关数据接口
+ * 操作type相关数据接口
  */
 public interface TypeMapper {
 
