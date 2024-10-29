@@ -14,7 +14,7 @@
             <div style="margin-top: 20px">
               <img src="@/assets/imgs/right.png" alt="" style="width: 70%; height: 130px; border-radius: 15px">
             </div>
-            <div style="color: #666666FF; font-size: 14px; margin-top: 20px">商家：{{goodsData.businessName}}</div>
+            <div style="color: #666666FF; font-size: 14px; margin-top: 20px">商家：<a href="#" @click="navTo('/front/business?id=' + goodsData.businessId)">{{goodsData.businessName}}</a></div>
             <div style="color: #666666FF; font-size: 14px; margin-top: 20px">分类：<a href="#" @click="navTo('/front/type?id=' + goodsData.typeId)">{{goodsData.typeName}}</a></div>
             <div style="color: #666666FF; margin-top: 20px">
               <el-button type="warning" @click="addCart">加入购物车</el-button>

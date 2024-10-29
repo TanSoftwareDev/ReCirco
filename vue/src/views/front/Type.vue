@@ -2,7 +2,7 @@
   <div class="main-content">
     <div style="display: flex; width: 70%; background-color: white; margin:30px auto; border-radius: 20px">
       <div style="flex: 1; padding: 0 20px">
-        <div style="font-size: 18px; color: #000000FF; line-height: 80px; border-bottom: #cccccc 1px solid">靓丽女装 / 内衣</div>
+        <div style="font-size: 18px; color: #000000FF; line-height: 80px; border-bottom: #cccccc 1px solid">{{typeData.name}}</div>
         <div style="margin: 20px 0">
           <el-row :gutter="20">
             <el-col :span="6" style="margin-bottom: 20px" v-for="item in goodsData">
@@ -36,15 +36,26 @@ export default {
     return {
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
       typeId: typeId,
-      goodsData: []
+      goodsData: [],
+      typeData: {}
     }
   },
   // DOM元素渲染之后
   mounted() {
     this.loadGoods()
+    this.loadType()
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
+    loadType() {
+      this.$request.get('/type/selectById/' + this.typeId).then(res => {
+        if (res.code === '200') {
+          this.typeData = res.data
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
     loadGoods() {
       this.$request.get('/goods/selectByTypeId?id=' + this.typeId).then(res => {
         if (res.code === '200') {
