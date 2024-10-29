@@ -55,16 +55,23 @@
             </div>
             <div style="display: flex; margin-top: 50px">
               <div style="flex: 1; text-align: center">
-                <img src="@/assets/imgs/collect.png" alt="" style="height: 25px; width: 25px">
-                <div>我的收藏</div>
+                <a href="#" @click="navTo('/front/collect')">
+                  <img src="@/assets/imgs/collect.png" alt="" style="height: 25px; width: 25px">
+                  <div>我的收藏</div>
+                </a>
               </div>
               <div style="flex: 1; text-align: center">
-                <img src="@/assets/imgs/store.png" alt="" style="height: 25px; width: 25px">
-                <div>我的地址</div>
+                <a href="#" @click="navTo('/front/address')">
+                  <img src="@/assets/imgs/store.png" alt="" style="height: 25px; width: 25px">
+                  <div>我的地址</div>
+                </a>
               </div>
               <div style="flex: 1; text-align: center">
-                <img src="@/assets/imgs/shopping cart.png" alt="" style="height: 25px; width: 25px">
-                <div>我的购物车</div>
+                <a href="#" @click="navTo('/front/cart')">
+                  <img src="@/assets/imgs/shopping cart.png" alt="" style="height: 25px; width: 25px">
+                  <div>我的购物车</div>
+                </a>
+
               </div>
               <div style="flex: 1; text-align: center">
                 <img src="@/assets/imgs/order.png" alt="" style="height: 25px; width: 25px">

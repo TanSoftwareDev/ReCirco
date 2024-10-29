@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
-@ControllerAdvice(basePackages = "com.example.controller")
+@ControllerAdvice(basePackages = "edu.whu.recirco.controller")
 public class GlobalExceptionHandler {
 
     private static final Log log = LogFactory.get();

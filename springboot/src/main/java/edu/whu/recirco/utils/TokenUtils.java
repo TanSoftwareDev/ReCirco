@@ -44,6 +44,7 @@ public class TokenUtils {
     public void setUserService() {
         staticAdminService = adminService;
         staticBusinessService = businessService;
+        staticUserService = userService;
     }
 
     /**

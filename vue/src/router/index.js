@@ -38,6 +38,10 @@ const routes = [
       {path:'search',name:'Search',meta:{name:'搜索页面'},component:() =>import('../views/front/Search') },
       { path: 'detail', name: 'Detail', meta: { name: '商品详情' }, component: () => import('../views/front/Detail') },
       { path: 'type', name: 'Type', meta: { name: '分类商品' }, component: () => import('../views/front/Type') },
+      { path: 'business', name: 'Business', meta: { name: '商家店铺' }, component: () => import('../views/front/Business') },
+      { path: 'collect', name: 'Collect', meta: { name: '我的收藏' }, component: () => import('../views/front/Collect') },
+      { path: 'address', name: 'Address', meta: { name: '我的地址' }, component: () => import('../views/front/Address') },
+      { path: 'cart', name: 'Cart', meta: { name: '我的购物车' }, component: () => import('../views/front/Cart') },
     ]
   },
   { path: '/login', name: 'Login', meta: { name: '登录' }, component: () => import('../views/Login.vue') },
