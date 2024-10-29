@@ -2,10 +2,10 @@
   <div class="main-content">
     <div style="width: 70%; background-color: white; margin:30px auto; border-radius: 20px">
       <div style="padding: 5px 20px">
-        <div style="font-size: 18px; color: #000000FF; line-height: 80px; border-bottom: #cccccc 1px solid">全部收藏（{{collectData.length}}件）</div>
+        <div style="font-size: 18px; color: #000000FF; line-height: 80px; border-bottom: #cccccc 1px solid">我的购物车（{{goodsData.length}}件）</div>
         <div style="margin: 20px 0; padding: 0 50px">
           <div class="table">
-            <el-table :data="collectData" strip>
+            <el-table :data="goodsData" strip>
               <el-table-column label="商品图片" width="120px">
                 <template v-slot="scope">
                   <div style="display: flex; align-items: center">
@@ -25,9 +25,14 @@
                 </template>
               </el-table-column>
               <el-table-column prop="goodsPrice" label="商品价格"></el-table-column>
+              <el-table-column prop="num" label="选择数量">
+                <template v-slot="scope">
+                  <el-input-number v-model="scope.row.num" style="width: 100px" @change="handleChange" :min="1"></el-input-number>
+                </template>
+              </el-table-column>
               <el-table-column label="操作" align="center" width="180">
                 <template v-slot="scope">
-                  <el-button size="mini" type="danger" plain @click="del(scope.row.id)">移除收藏</el-button>
+                  <el-button size="mini" type="danger" plain @click="del(scope.row.id)">移除购物车</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -58,7 +63,7 @@ export default {
 
     return {
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
-      collectData:[],
+      goodsData:[],
       pageNum: 1,   // 当前的页码
       pageSize: 10,  // 每页显示的个数
       total: 0,
@@ -66,20 +71,20 @@ export default {
   },
   // DOM元素渲染之后
   mounted() {
-    this.loadCollect(1)
+    this.loadGoods(1)
   },
   // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
-    loadCollect(pageNum){
+    loadGoods(pageNum){
       if (pageNum) this.pageNum = pageNum
-      this.$request.get('/collect/selectPage', {
+      this.$request.get('/cart/selectPage', {
         params: {
           pageNum: this.pageNum,
           pageSize: this.pageSize,
         }
       }).then(res => {
         if(res.code === '200'){
-          this.collectData = res.data?.list
+          this.goodsData = res.data?.list
           this.total = res.data?.total
         }else{
           this.$message.error(res.msg);
@@ -90,10 +95,10 @@ export default {
       location.href = url
     },
     del(id){
-      this.$request.delete('/collect/delete/' + id).then(res=>{
+      this.$request.delete('/cart/delete/' + id).then(res=>{
         if(res.code==='200'){
           this.$message.success('移除成功')
-          this.loadCollect(1)
+          this.loadGoods(1)
         }else{
           this.$message.error(res.msg)
         }
@@ -101,7 +106,7 @@ export default {
       })
     },
     handleCurrentChange(pageNum){
-      this.loadCollect(pageNum)
+      this.loadGoods(pageNum)
     }
   }
 }

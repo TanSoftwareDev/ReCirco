@@ -67,8 +67,11 @@
                 </a>
               </div>
               <div style="flex: 1; text-align: center">
-                <img src="@/assets/imgs/shopping cart.png" alt="" style="height: 25px; width: 25px">
-                <div>我的购物车</div>
+                <a href="#" @click="navTo('/front/cart')">
+                  <img src="@/assets/imgs/shopping cart.png" alt="" style="height: 25px; width: 25px">
+                  <div>我的购物车</div>
+                </a>
+
               </div>
               <div style="flex: 1; text-align: center">
                 <img src="@/assets/imgs/order.png" alt="" style="height: 25px; width: 25px">

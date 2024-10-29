@@ -17,7 +17,7 @@
             <div style="color: #666666FF; font-size: 14px; margin-top: 20px">商家：{{goodsData.businessName}}</div>
             <div style="color: #666666FF; font-size: 14px; margin-top: 20px">分类：<a href="#" @click="navTo('/front/type?id=' + goodsData.typeId)">{{goodsData.typeName}}</a></div>
             <div style="color: #666666FF; margin-top: 20px">
-              <el-button type="warning">加入购物车</el-button>
+              <el-button type="warning" @click="addCart">加入购物车</el-button>
               <el-button type="warning" @click="collect">收藏</el-button>
             </div>
           </el-col>
@@ -49,25 +49,21 @@ export default {
       activeName: 'first'
     }
   },
-  // DOM元素渲染之后
+
   mounted() {
-    // console.log("adfasffffffffffffffffffffffffffffff");
-    // console.log(this.$route.query);
-    // console.log(this.$router.query.id);
     this.loadGoods()
   },
-  // methods：本页面所有的点击事件或者其他函数定义区
   methods: {
-    // 测试版
-    // loadGoods() {
-    //   this.$request.get('http://127.0.0.1:4523/m2/5319188-4989426-default/224812492').then(res => {
-    //     if (res.code === '200') {
-    //       this.goodsData = res.data
-    //     } else {
-    //       this.$message.error(res.msg)
-    //     }
-    //   })
-      // 正式版
+    addCart(){
+      let data={num:1,userId:this.user.id,goodsId: this.goodsId,businessId: this.goodsData.businessId,}
+      this.$request.post('/cart/add',data).then(res=>{
+        if(res.code==='200'){
+          this.$message.success('添加成功')
+        }else{
+          this.$message.error(res.msg);
+        }
+      })
+    },
     loadGoods() {
       this.$request.get('/goods/selectById?id=' + this.goodsId).then(res => {
         if (res.code === '200') {
@@ -93,8 +89,6 @@ export default {
           this.$message.error(res.msg)
         }
       })
-
-
     },
     navTo(url) {
       location.href = url
