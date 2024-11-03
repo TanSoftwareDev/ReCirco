@@ -35,6 +35,7 @@
                   <el-button size="mini" type="danger" plain @click="del(scope.row.id)">移除购物车</el-button>
                 </template>
               </el-table-column>
+
             </el-table>
 
             <div class="pagination" style="margin-top: 20px">
