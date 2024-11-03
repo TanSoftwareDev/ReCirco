@@ -14,16 +14,16 @@
         from orders
         left join business on orders.business_id = business.id
         left join goods on orders.goods_id = goods.id
-        left join address on orders.goods_id = goods.id
+        left join address on orders.address_id = address.id
         <where>
             <if test="id != null"> and id= #{id}</if>
-            <if test="userId != null"> and user_id = #{userId}</if>
-            <if test="businessId != null"> and business_id = #{businessId}</if>
+            <if test="userId != null"> and orders.user_id = #{userId}</if>
+            <if test="businessId != null"> and orders.business_id = #{businessId}</if>
             <if test="goodsId != null"> and goods_id = #{goodsId}</if>
             <if test="num != null"> and num = #{num}</if>
-            <if test="order_id != null"> and order_id = #{order_id}</if>
+            <if test="orderId != null"> and order_id = #{orderId}</if>
             <if test="price != null"> and price = #{price}</if>
-            <if test="address_id != null"> and address_id = #{address_id}</if>
+            <if test="addressId != null"> and address_id = #{addressId}</if>
             <if test="status != null"> and status = #{status}</if>
         </where>
     </select>
@@ -48,9 +48,9 @@
             <if test="businessId != null">business_id,</if>
             <if test="goodsId != null">goods_id,</if>
             <if test="num != null">num,</if>
-            <if test="order_id != null">order_id,</if>
+            <if test="orderId != null">order_id,</if>
             <if test="price != null">price,</if>
-            <if test="address_id != null">address_id,</if>
+            <if test="addressId != null">address_id,</if>
             <if test="status != null">status,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -59,9 +59,9 @@
             <if test="businessId != null">#{businessId},</if>
             <if test="goodsId != null">#{goodsId},</if>
             <if test="num != null">#{num},</if>
-            <if test="order_id != null">#{order_id},</if>
+            <if test="orderId != null">#{orderId},</if>
             <if test="price != null">#{price},</if>
-            <if test="address_id != null">#{address_id},</if>
+            <if test="addressId != null">#{addressId},</if>
             <if test="status != null">#{status},</if>
         </trim>
     </insert>
@@ -81,14 +81,14 @@
             <if test="num != null">
                 num = #{num},
             </if>
-            <if test="order_id != null">
-                order_id = #{order_id},
+            <if test="orderId != null">
+                order_id = #{orderId},
             </if>
             <if test="price != null">
                 price = #{price},
             </if>
-            <if test="address_id != null">
-                address_id = #{address_id},
+            <if test="addressId != null">
+                address_id = #{addressId},
             </if>
             <if test="status != null">
                 status = #{status},

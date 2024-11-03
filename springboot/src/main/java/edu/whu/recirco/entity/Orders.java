@@ -1,6 +1,7 @@
 package edu.whu.recirco.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 订单信息表
@@ -9,26 +10,26 @@ public class Orders implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private Integer id;
-    private Integer orderId;
+    private String orderId;
     private Integer goodsId;
     private Integer businessId;
     private Integer num;
     private Integer userId;
     private Double price;
-    private Integer address_id;
+    private Integer addressId;
     private String status;
 
-    public Integer getOrderId() {
-        return orderId;
-    }
+    private List<Cart> cartData;
+
+
+
+
 
     public Double getPrice() {
         return price;
     }
 
-    public Integer getAddress_id() {
-        return address_id;
-    }
+
 
     public String getStatus() {
         return status;
@@ -42,17 +43,15 @@ public class Orders implements Serializable {
         return useraddress;
     }
 
-    public void setOrderId(Integer orderId) {
-        this.orderId = orderId;
-    }
+
+
+
 
     public void setPrice(Double price) {
         this.price = price;
     }
 
-    public void setAddress_id(Integer address_id) {
-        this.address_id = address_id;
-    }
+
 
     public void setStatus(String status) {
         this.status = status;
@@ -82,6 +81,13 @@ public class Orders implements Serializable {
         this.num = num;
     }
 
+    public List<Cart> getCartData() {
+        return cartData;
+    }
+
+    public void setCartData(List<Cart> cartData) {
+        this.cartData = cartData;
+    }
 
     private String businessName;
     private String goodsImg;
@@ -89,9 +95,6 @@ public class Orders implements Serializable {
     private String goodsUnit;
     private Double goodsprice;
     private String username;
-
-
-
     private String useraddress;
     private String phone;
 
@@ -119,9 +122,7 @@ public class Orders implements Serializable {
         this.goodsName = goodsName;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
+
 
     public String getGoodsUnit() {
         return goodsUnit;
@@ -139,16 +140,39 @@ public class Orders implements Serializable {
         this.goodsprice = goodsprice;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    @Override
+    public String toString() {
+        return "Orders{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", businessId=" + businessId +
+                ", goodsId=" + goodsId +
+                ", num=" + num +
+                ", orderId='" + orderId + '\'' +
+                ", price=" + price +
+                ", addressId=" + addressId +
+                ", status='" + status + '\'' +
+                '}';
     }
 
-    public Integer getBusinessId() {
-        return businessId;
+
+
+
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setBusinessId(Integer businessId) {
-        this.businessId = businessId;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 
     public Integer getGoodsId() {
@@ -159,13 +183,27 @@ public class Orders implements Serializable {
         this.goodsId = goodsId;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getBusinessId() {
+        return businessId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setBusinessId(Integer businessId) {
+        this.businessId = businessId;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
 
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Integer addressId) {
+        this.addressId = addressId;
+    }
 }

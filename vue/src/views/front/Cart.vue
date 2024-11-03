@@ -12,7 +12,7 @@
             </el-select>
           </div>
           <div style="flex: 1;text-align: right;padding-right: 20px" >
-            已选商品 ￥ {{ totalPrice }} <el-button type="primary" round>下单</el-button>
+            已选商品 ￥ {{ totalPrice }} <el-button type="primary" round @click="pay">下单</el-button>
           </div>
         </div>
 
@@ -150,6 +150,30 @@ export default {
       this.totalPrice = 0
       this.selectedData.forEach(item=>{
         this.totalPrice += (item.goodsPrice*item.num)
+      })
+    },
+    pay(){
+      if(!this.addressId){
+        this.$message.warning('请选择收货地址')
+        return
+      }
+      if(!this.selectedData || this.selectedData.length === 0){
+        this.$message.warning('请选择商品')
+        return
+      }
+      let data = {userId: this.user.id,
+        addressId: this.addressId,
+        price:this.totalPrice,
+        status: '待发货',
+        cartData: this.selectedData
+      }
+      this.$request.post('orders/add',data).then(res =>{
+        if(res.code === '200'){
+          this.$message.success('操作成功')
+          this.loadGoods(1)
+        }else{
+          this.$message.error(res.msg)
+        }
       })
     }
   }
