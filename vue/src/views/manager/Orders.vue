@@ -41,6 +41,8 @@
         <el-table-column label="操作" width="180" align="center">
           <template v-slot="scope">
             <el-button plain type="primary" size="mini" v-if="scope.row.status === '待发货'" @click="updateStatus(scope.row,'待收货')">发货</el-button>
+            <el-button plain type="primary" size="mini" v-if="scope.row.status === '待收货'" @click="updateStatus(scope.row,'已完成')">确认收货</el-button>
+            <el-button plain type="primary" size="mini" v-if="scope.row.status === '已完成'" @click="addComment(scope.row)">评价</el-button>
             <el-button plain type="danger" size="mini" @click=del(scope.row.id)>删除</el-button>
           </template>
         </el-table-column>
@@ -59,6 +61,18 @@
       </div>
     </div>
 
+    <el-dialog title="请输入评价内容" :visible.sync="fromVisible" width="40%" :close-on-click-modal="false" destroy-on-close>
+      <el-form :model="form" label-width="100px" style="padding-right: 50px" :rules="rules" ref="formRef">
+        <el-form-item label="评价内容" prop="username">
+          <el-input type="textarea" v-model="form.content" placeholder="请输入评价内容"></el-input>
+      </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="fromVisible = false">取 消</el-button>
+        <el-button type="primary" @click="save2">确 定</el-button>
+      </div>
+    </el-dialog>
 
   </div>
 </template>
@@ -77,7 +91,8 @@ export default {
       orderId: null,
       form: {},
       user: JSON.parse(localStorage.getItem('xm-user') || '{}'),
-      ids: []
+      ids: [],
+      fromVisible: false
     }
   },
   created() {
@@ -164,7 +179,29 @@ export default {
       this.form = row
       this.form.status = status
       this.save()
-    }
+    },
+    addComment(row) {
+      this.fromVisible = true
+      this.form = row
+    },
+    save2() {
+      let data = {
+        userId: this.user.id,
+        businessId: this.form.businessId,
+        goodsId: this.form.goodsId,
+        content: this.form.content,
+      }
+      this.$request.post('/comment/add', data).then(res => {
+        if (res.code === '200') {
+          this.$message.success('评价成功')
+          this.fromVisible = false
+          this.updateStatus(this.form, '已评价')
+          this.form = {}
+        } else {
+          this.$message.error(res.msg)
+        }
+      })
+    },
   }
 }
 </script>
