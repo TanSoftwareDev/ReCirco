@@ -19,6 +19,9 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.Random;
 
@@ -211,47 +214,65 @@ public class GoodsService {
         // 定义一个存储每个商品和每个用户关系的List
         List<RelateDTO> data = new ArrayList<>();
         // 定义一个存储最后返回给前端的商品List
-        List<Goods> result = new ArrayList<>();
+        List<Goods> recommendResult;
+
+        //创建一个线程
+        CountDownLatch countDownLatch = new CountDownLatch(allGoods.size() * allUsers.size());
+        //创建一个线程池
+        ExecutorService threadPool = Executors.newCachedThreadPool();
+
+
         // 开始计算每个商品和每个用户之间的关系数据
         for (Goods goods : allGoods) {
             Integer goodsId = goods.getId();
             for (User user : allUsers) {
-                Integer userId = user.getId();
-                int index = 1;
-                // 1. 判断该用户有没有收藏该商品，收藏的权重我们给 1
-                Optional<Collect> collectOptional = allCollects.stream().filter(x -> x.getGoodsId().equals(goodsId) && x.getUserId().equals(userId)).findFirst();
-                if (collectOptional.isPresent()) {
-                    index += 1;
-                }
-                // 2. 判断该用户有没有给该商品加入购物车，加入购物车的权重我们给 2
-                Optional<Cart> cartOptional = allCarts.stream().filter(x -> x.getGoodsId().equals(goodsId) && x.getUserId().equals(userId)).findFirst();
-                if (cartOptional.isPresent()) {
-                    index += 2;
-                }
-                // 3. 判断该用户有没有对该商品下过单（已完成的订单），订单的权重我们给 3
-                Optional<Orders> ordersOptional = allOrders.stream().filter(x -> x.getGoodsId().equals(goodsId) && x.getUserId().equals(userId)).findFirst();
-                if (ordersOptional.isPresent()) {
-                    index += 3;
-                }
-                // 4. 判断该用户有没有对该商品评论过，评论的权重我们给 2
+                threadPool.execute(()->{
+                    Integer userId = user.getId();
+                    int index = 1;
+                    // 1. 判断该用户有没有收藏该商品，收藏的权重我们给 1
+                    Optional<Collect> collectOptional = allCollects.stream().filter(x -> x.getGoodsId().equals(goodsId) && x.getUserId().equals(userId)).findFirst();
+                    if (collectOptional.isPresent()) {
+                        index += 1;
+                    }
+                    // 2. 判断该用户有没有给该商品加入购物车，加入购物车的权重我们给 2
+                    Optional<Cart> cartOptional = allCarts.stream().filter(x -> x.getGoodsId().equals(goodsId) && x.getUserId().equals(userId)).findFirst();
+                    if (cartOptional.isPresent()) {
+                        index += 2;
+                    }
+                    // 3. 判断该用户有没有对该商品下过单（已完成的订单），订单的权重我们给 3
+                    Optional<Orders> ordersOptional = allOrders.stream().filter(x -> x.getGoodsId().equals(goodsId) && x.getUserId().equals(userId)).findFirst();
+                    if (ordersOptional.isPresent()) {
+                        index += 3;
+                    }
+                    // 4. 判断该用户有没有对该商品评论过，评论的权重我们给 2
 //                Optional<Comment> commentOptional = allComments.stream().filter(x -> x.getGoodsId().equals(goodsId) && x.getUserId().equals(userId)).findFirst();
 //                if (commentOptional.isPresent()) {
 //                    index += 2;
 //                }
-                if (index > 1) {
-                    RelateDTO relateDTO = new RelateDTO(userId, goodsId, index);
-                    data.add(relateDTO);
-                }
+                    if (index > 1) {
+                        RelateDTO relateDTO = new RelateDTO(userId, goodsId, index);
+                        data.add(relateDTO);
+                    }
+                    countDownLatch.countDown();
+                });
             }
         }
 
 //        return getRandomGoods(10);
+        try{
+            countDownLatch.await();
+            threadPool.shutdown();
+        }catch (InterruptedException e){
+            e.printStackTrace();
+        } finally {
+            // 数据准备结束后，就把这些数据一起喂给这个推荐算法
+            List<Integer> goodsIds = UserCF.recommend(currentUser.getId(), data);
+            // 把商品id转换成商品
+            recommendResult = goodsIds.stream().map(goodsId -> allGoods.stream().filter(x -> x.getId().equals(goodsId)).findFirst().orElse(null)).limit(10).collect(Collectors.toList());
+        }
 
-// 数据准备结束后，就把这些数据一起喂给这个推荐算法
-        List<Integer> goodsIds = UserCF.recommend(currentUser.getId(), data);
-        // 把商品id转换成商品
-        List<Goods> recommendResult = goodsIds.stream().map(goodsId -> allGoods.stream().filter(x -> x.getId().equals(goodsId)).findFirst().orElse(null)).limit(10).collect(Collectors.toList());
-        result.addAll(recommendResult);
+
+        //        result.addAll(recommendResult);
         if (CollectionUtil.isEmpty(recommendResult)) {
             // 随机给它推荐10个
             return getRandomGoods(10);
@@ -259,9 +280,9 @@ public class GoodsService {
         if (recommendResult.size() < 10) {
             int num = 10 - recommendResult.size();
             List<Goods> list = getRandomGoods(num);
-            result.addAll(list);
+            recommendResult.addAll(list);
         }
-        return result;
+        return recommendResult;
     }
 
     private List<Goods> getRandomGoods(int num) {
