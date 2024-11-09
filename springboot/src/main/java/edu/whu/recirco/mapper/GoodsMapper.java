@@ -42,4 +42,6 @@ public interface GoodsMapper {
 
     @Select("select * from goods where business_id = #{id}")
     List<Goods> selectByBusinessId(Integer id);
+
+//    List<Goods> recommend();
 }

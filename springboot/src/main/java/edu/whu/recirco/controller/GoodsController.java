@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.management.relation.Role;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -101,6 +102,12 @@ public class GoodsController {
     @GetMapping("/selectByName")
     public Result selectByName(@RequestParam String name) {
         List<Goods> list = goodsService.selectByName(name);
+        return Result.success(list);
+    }
+
+    @GetMapping("/recommend")
+    public Result recommend(){
+        List<Goods> list = goodsService.recommend();
         return Result.success(list);
     }
 
