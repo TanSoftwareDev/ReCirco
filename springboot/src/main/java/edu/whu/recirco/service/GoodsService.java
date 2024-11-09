@@ -188,11 +188,12 @@ public class GoodsService {
 //    }
     public List<Goods> recommend() {
 
-        Account currentUser = TokenUtils.getCurrentUser();
+        Account currentUser= TokenUtils.getCurrentUser();
         if (ObjectUtil.isEmpty(currentUser)) {
             // 没有用户登录
             return new ArrayList<>();
         }
+
         // 用户的哪些行为可以认为他跟商品产生了关系？收藏、加入购物车、下单、评论
         // 1. 获取所有的收藏信息
         List<Collect> allCollects = collectMapper.selectAll(null);
