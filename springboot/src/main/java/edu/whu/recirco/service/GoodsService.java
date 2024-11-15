@@ -14,7 +14,11 @@ import edu.whu.recirco.utils.TokenUtils;
 
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 @Service
 public class GoodsService {
 
@@ -29,6 +33,7 @@ public class GoodsService {
         if (RoleEnum.BUSINESS.name().equals(currentUser.getRole())) {
             goods.setBusinessId(currentUser.getId());
         }
+
         goodsMapper.insert(goods);
     }
 
@@ -83,7 +88,18 @@ public class GoodsService {
         return PageInfo.of(list);
     }
     public List<Goods> selectByName(String name) {
-        return goodsMapper.selectByName(name);
+        // 调用根据name搜索的方法
+        List<Goods> goodsByName = goodsMapper.selectByName(name);
+        System.out.println("1");
+        // 调用根据content搜索的方法
+        List<Goods> goodsByContent = goodsMapper.findGoodsByContent(name);
+        System.out.println("2");
+        // 使用Set去重
+        Set<Goods> uniqueGoods = new HashSet<>(goodsByName);
+        uniqueGoods.addAll(goodsByContent);
+
+        // 将Set转换回List
+        return new ArrayList<>(uniqueGoods);
     }
 
     public List<Goods> selectByBusinessId(Integer id) {

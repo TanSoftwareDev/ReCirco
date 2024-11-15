@@ -27,8 +27,7 @@ public interface GoodsMapper {
      */
     Goods selectById(Integer id);
 
-    @Select("select * from goods where name like concat('%',#{name},'%')")
-    List<Goods> selectByName(String name);
+
     /**
      * 查询所有
      */
@@ -42,4 +41,10 @@ public interface GoodsMapper {
 
     @Select("select * from goods where business_id = #{id}")
     List<Goods> selectByBusinessId(Integer id);
+
+    @Select("select * from goods where name like concat('%',#{name},'%')")
+    List<Goods> selectByName(String name);
+
+    @Select("SELECT * FROM goods WHERE content like concat('%',#{searchTerm},'%')")
+    List<Goods> findGoodsByContent(String searchTerm);
 }

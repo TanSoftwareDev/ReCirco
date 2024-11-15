@@ -34,4 +34,7 @@ minio:
   secretKey: minioadmin
   bucketName: image
 
+tess4j:
+  datapath: D:\Download\Dataset\tessdata\tessdata
+
 ip: localhost

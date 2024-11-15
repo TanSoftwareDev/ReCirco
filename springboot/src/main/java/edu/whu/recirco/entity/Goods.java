@@ -19,6 +19,15 @@ public class Goods implements Serializable {
 
     private String typeName;
     private String businessName;
+    private String content;
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public String getTypeName() {
         return typeName;
