@@ -1,6 +1,7 @@
 package edu.whu.recirco.mapper;
 
 import edu.whu.recirco.entity.Orders;
+import edu.whu.recirco.entity.User;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -35,5 +36,9 @@ public interface OrdersMapper {
      * 查询所有
      */
     List<Orders> selectAll(Orders orders);
+
+
+    @Select("select * from orders where status ='已完成' or status ='已评价'")
+    List<Orders> selectAllOKOrders();
 
    }

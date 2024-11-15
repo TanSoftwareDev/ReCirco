@@ -1,16 +1,16 @@
 package edu.whu.recirco.service;
 
 
-import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.io.unit.DataUnit;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.whu.recirco.common.enums.RoleEnum;
 import edu.whu.recirco.entity.Account;
 import edu.whu.recirco.entity.Cart;
+import edu.whu.recirco.entity.Goods;
 import edu.whu.recirco.entity.Orders;
 import edu.whu.recirco.mapper.CartMapper;
+import edu.whu.recirco.mapper.GoodsMapper;
 import edu.whu.recirco.mapper.OrdersMapper;
 import edu.whu.recirco.utils.TokenUtils;
 import org.springframework.beans.BeanUtils;
@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 购物车业务处理
+ * 订单业务处理
  **/
 @Service
 public class OrdersService {
@@ -31,6 +31,8 @@ public class OrdersService {
     private OrdersMapper ordersMapper;
     @Autowired
     private CartMapper cartMapper;
+    @Resource
+    private GoodsMapper goodsMapper;
 
     /**
      * 新增
@@ -50,6 +52,10 @@ public class OrdersService {
 
             //删掉选中的商品
             cartMapper.deleteById(cart.getId());
+            //把商品销量增加
+            Goods goods = goodsMapper.selectById(cart.getGoodsId());
+            goods.setCount(goods.getCount()+cart.getNum());
+            goodsMapper.updateById(goods);
         }
     }
 

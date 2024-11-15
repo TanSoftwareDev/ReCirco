@@ -47,4 +47,6 @@ public interface GoodsMapper {
 
     @Select("SELECT * FROM goods WHERE content like concat('%',#{searchTerm},'%')")
     List<Goods> findGoodsByContent(String searchTerm);
+
+//    List<Goods> recommend();
 }
