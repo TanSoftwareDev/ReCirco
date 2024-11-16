@@ -5,7 +5,7 @@
 <mapper namespace="edu.whu.recirco.mapper.GoodsMapper">
 
     <sql id="Base_Column_List">
-        id,name,description,img,price,unit,count,type_id,business_id
+        id,name,description,img,price,unit,count,type_id,business_id,content
     </sql>
 
     <select id="selectAll" resultType="edu.whu.recirco.entity.Goods">
@@ -40,7 +40,7 @@
         where  id = #{id}
     </delete>
 
-    <insert id="insert" parameterType="edu.whu.recirco.entity.Goods" useGeneratedKeys="true">
+    <insert id="insert" parameterType="edu.whu.recirco.entity.Goods" useGeneratedKeys="true" keyProperty="id">
         insert into goods
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">id,</if>
@@ -92,6 +92,9 @@
             </if>
             <if test="businessId != null">
                 business_id = #{businessId},
+            </if>
+            <if test="content != null">
+                content = #{content},
             </if>
         </set>
         where id = #{id}

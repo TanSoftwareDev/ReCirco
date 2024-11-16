@@ -8,6 +8,7 @@ import edu.whu.recirco.entity.Account;
 import edu.whu.recirco.entity.Address;
 import edu.whu.recirco.mapper.AddressMapper;
 import edu.whu.recirco.utils.TokenUtils;
+import org.apache.el.parser.Token;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -63,6 +64,11 @@ public class AddressService {
      * 查询所有
      */
     public List<Address> selectAll(Address address) {
+        //动态的sql语句 提前先把userid设置好，然后只查询本用户的ID
+        Account currentUser = TokenUtils.getCurrentUser();
+        if(RoleEnum.USER.name().equals(currentUser.getRole())){
+            address.setUserId(currentUser.getId());
+        }
         return addressMapper.selectAll(address);
     }
 

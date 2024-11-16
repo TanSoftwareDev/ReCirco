@@ -45,6 +45,8 @@
             <el-menu-item v-if="user.role === 'ADMIN'" index="/notice">公告信息</el-menu-item>
             <el-menu-item v-if="user.role === 'ADMIN'" index="/type">分类信息</el-menu-item>
             <el-menu-item index="/goods">商品信息</el-menu-item>
+            <el-menu-item index="/orders">订单管理</el-menu-item>
+            <el-menu-item index="/comment">评论管理</el-menu-item>
           </el-submenu>
 
           <el-submenu index="user" v-if="user.role === 'ADMIN'">
@@ -77,7 +79,8 @@ export default {
   },
   created() {
     if (!this.user.id) {
-      this.$router.push('/login')
+      //this.$router.push('/login')
+      this.$router.push('/front/home')
     }
   },
   methods: {

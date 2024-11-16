@@ -1,5 +1,7 @@
 package edu.whu.recirco.controller;
 
+import com.alibaba.dashscope.exception.InputRequiredException;
+import com.alibaba.dashscope.exception.NoApiKeyException;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import edu.whu.recirco.common.Result;
@@ -8,11 +10,15 @@ import edu.whu.recirco.common.enums.RoleEnum;
 import edu.whu.recirco.entity.Account;
 import edu.whu.recirco.entity.Goods;
 import edu.whu.recirco.service.GoodsService;
+import edu.whu.recirco.service.OcrService;
 import edu.whu.recirco.utils.TokenUtils;
+import net.sourceforge.tess4j.TesseractException;
+import org.springframework.test.context.jdbc.SqlGroup;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.management.relation.Role;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,16 +28,24 @@ public class GoodsController {
     @Resource
     private GoodsService goodsService;
 
+    @Resource
+    private OcrService ocrService;
+
     /**
      * 新增
      */
     @PostMapping("/add")
-    public Result add(@RequestBody Goods goods) {
+    public Result add(@RequestBody Goods goods) throws TesseractException, NoApiKeyException, InputRequiredException {
         Account currentUser = TokenUtils.getCurrentUser();
         if(RoleEnum.BUSINESS.name().equals(currentUser.getRole())){
             goods.setBusinessId(currentUser.getId());
         }
         goodsService.add(goods);
+        System.out.println(goods.getId());
+        int goodsId = goods.getId();
+        String path = goods.getImg();
+        ocrService.ocrProcess(path,goodsId);
+
         return Result.success();
     }
 
@@ -101,6 +115,12 @@ public class GoodsController {
     @GetMapping("/selectByName")
     public Result selectByName(@RequestParam String name) {
         List<Goods> list = goodsService.selectByName(name);
+        return Result.success(list);
+    }
+
+    @GetMapping("/recommend")
+    public Result recommend(){
+        List<Goods> list = goodsService.recommend();
         return Result.success(list);
     }
 

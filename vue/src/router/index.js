@@ -14,6 +14,7 @@ const routes = [
     path: '/',
     name: 'Manager',
     component: () => import('../views/Manager.vue'),
+    redirect:'front/home',
     children: [
       { path: '403', name: 'NoAuth', meta: { name: '无权限' }, component: () => import('../views/manager/403') },
       { path: 'home', name: 'Home', meta: { name: '系统首页' }, component: () => import('../views/manager/Home') },
@@ -26,6 +27,10 @@ const routes = [
       { path: 'notice', name: 'Notice', meta: { name: '公告信息' }, component: () => import('../views/manager/Notice') },
       { path: 'type', name: 'Type', meta: { name: '分类信息' }, component: () => import('../views/manager/Type') },
       { path: 'goods', name: 'Goods', meta: { name: '商品信息' }, component: () => import('../views/manager/Goods') },
+      { path: 'orders', name: 'Orders', meta: { name: '订单管理' }, component: () => import('../views/manager/Orders') },
+      { path: 'comment', name: 'Comment', meta: { name: '评论管理' }, component: () => import('../views/manager/Comment') },
+
+
     ]
   },
   {
@@ -35,13 +40,14 @@ const routes = [
     children: [
       { path: 'home', name: 'Home', meta: { name: '系统首页' }, component: () => import('../views/front/Home') },
       { path: 'person', name: 'Person', meta: { name: '个人信息' }, component: () => import('../views/front/Person') },
-      {path:'search',name:'Search',meta:{name:'搜索页面'},component:() =>import('../views/front/Search') },
+      { path: 'search', name: 'Search', meta: { name: '搜索页面' }, component: () => import('../views/front/Search') },
       { path: 'detail', name: 'Detail', meta: { name: '商品详情' }, component: () => import('../views/front/Detail') },
       { path: 'type', name: 'Type', meta: { name: '分类商品' }, component: () => import('../views/front/Type') },
       { path: 'business', name: 'Business', meta: { name: '商家店铺' }, component: () => import('../views/front/Business') },
       { path: 'collect', name: 'Collect', meta: { name: '我的收藏' }, component: () => import('../views/front/Collect') },
       { path: 'address', name: 'Address', meta: { name: '我的地址' }, component: () => import('../views/front/Address') },
       { path: 'cart', name: 'Cart', meta: { name: '我的购物车' }, component: () => import('../views/front/Cart') },
+      { path: 'orders', name: 'Orders', meta: { name: '订单信息' }, component: () => import('../views/front/Orders') },
     ]
   },
   { path: '/login', name: 'Login', meta: { name: '登录' }, component: () => import('../views/Login.vue') },
@@ -57,21 +63,21 @@ const router = new VueRouter({
 
 // 注：不需要前台的项目，可以注释掉该路由守卫
 // 路由守卫
-router.beforeEach((to ,from, next) => {
-  let user = JSON.parse(localStorage.getItem("xm-user") || '{}');
-  if (to.path === '/') {
-    if (user.role) {
-      if (user.role === 'USER') {
-        next('/front/home')
-      } else {
-        next('/home')
-      }
-    } else {
-      next('/login')
-    }
-  } else {
-    next()
-  }
-})
+//router.beforeEach((to ,from, next) => {
+//  let user = JSON.parse(localStorage.getItem("xm-user") || '{}');
+//  if (to.path === '/') {
+//    if (user.role) {
+//if (user.role === 'USER') {
+//        next('/front/home')
+//      } else {
+//        next('/home')
+//      }
+//    } else {
+//      next('/login')
+//    }
+//  } else {
+//    next()
+//  }
+// })
 
 export default router
