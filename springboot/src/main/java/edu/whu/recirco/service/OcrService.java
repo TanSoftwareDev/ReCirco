@@ -86,7 +86,7 @@ public class OcrService {
         String words = this.recognizeImg(imagePath);
         log.info("OCR Result: " + words);
         // 使用大模型对ocr的结果进行优化，修改错别字等等
-        Constants.apiKey = "sk-a513d206b66948ad8b27356775c8c829";
+        Constants.apiKey = "your API key";
 
         String command ="这是我对图片的文字识别结果，其中可能包含错别字，语法错误以及乱码，请你进行改正错误并给出修改结果\n" +
                 "要求：1、只修改错误以及逻辑不通之处，不要修改原意" +
